@@ -1,88 +1,24 @@
 import 'package:flutter/material.dart';
 
+import '../colors.dart';
+
 List<String> displayXO = ['', '', '', '', '', '', '', '', ''];
 
 int filledBoxes = 0;
 
-class Game extends StatelessWidget {
+class Game extends StatefulWidget {
   const Game({super.key});
-  static const String routeName = '/game';
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 239, 61, 7),
-      body: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
-          ),
-          const Text(
-            "Tic Tac Toe",
-            style: TextStyle(
-              fontSize: 40,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.02,
-          ),
-          const Text(
-            "Game starts with O",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.04,
-          ),
-          const GridOfGame(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                style: TextButton.styleFrom(
-                  foregroundColor: const Color.fromARGB(255, 239, 61, 7),
-                  backgroundColor: Colors.white,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: const Text(
-                  "Exit",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.08,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class GridOfGame extends StatefulWidget {
-  const GridOfGame({super.key});
+  static String routeName = '/game';
 
   @override
-  State<GridOfGame> createState() => _GridOfGameState();
+  State<Game> createState() => _GameState();
 }
 
-class _GridOfGameState extends State<GridOfGame> {
+class _GameState extends State<Game> {
   bool oTurn = true;
+  bool xWinner = false;
+  bool oWinner = false;
+  bool draw = false;
 
   void _clearBoard() {
     setState(() {
@@ -95,73 +31,17 @@ class _GridOfGameState extends State<GridOfGame> {
   }
 
   void _showDrawDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: const Color.fromARGB(255, 239, 61, 7),
-          title: const Text(
-            "Draw!",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                _clearBoard();
-                Navigator.of(context).pop();
-              },
-              child: const Text(
-                "Play Again",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
+    if (filledBoxes == 9 && oWinner == false && xWinner == false) {
+      setState(() {
+        draw == true;
+      });
+    }
   }
 
   void _showWinDialog(String winner) {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: const Color.fromARGB(255, 239, 61, 7),
-            title: Text(
-              "Winner is $winner",
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  _clearBoard();
-                  Navigator.of(context).pop();
-                },
-                child: const Text(
-                  "Play Again",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          );
-        });
+    setState(() {
+      winner == 'X' ? xWinner = true : oWinner = true;
+    });
   }
 
   void _tapped(int index) {
@@ -221,41 +101,196 @@ class _GridOfGameState extends State<GridOfGame> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-        ),
-        padding: const EdgeInsets.all(20),
-        itemCount: 9,
-        shrinkWrap: true,
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {
-              _tapped(index);
-            },
-            child: Container(
-              height: 100,
-              width: 100,
-              padding: const EdgeInsets.all(15),
+    return Scaffold(
+      backgroundColor: primaryColor,
+      body: Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.1,
+          ),
+          const Text(
+            "Tic Tac Toe",
+            style: TextStyle(
+              fontSize: 40,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
+          const Text(
+            "Game starts with O",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.04,
+          ),
+          Expanded(
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+              ),
+              padding: const EdgeInsets.all(20),
+              itemCount: 9,
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                return GestureDetector(
+                  onTap: () {
+                    _tapped(index);
+                  },
+                  child: Container(
+                    height: 100,
+                    width: 100,
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                        color: primaryColor,
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        displayXO[index],
+                        style: TextStyle(
+                          color: (displayXO[index] == 'X') ? xColor : oColor,
+                          fontSize: 50,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              TextButton(
+                onPressed: () {
+                  _clearBoard();
+                  setState(() {
+                    xWinner = false;
+                    oWinner = false;
+                    draw = false;
+                  });
+                },
+                style: TextButton.styleFrom(
+                  foregroundColor: primaryColor,
+                  backgroundColor: Colors.white,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                child: const Text(
+                  "New",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                  _clearBoard();
+                },
+                style: TextButton.styleFrom(
+                  foregroundColor: primaryColor,
+                  backgroundColor: Colors.white,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                child: const Text(
+                  "Exit",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
+          if (xWinner) ...[
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.1,
               decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border.all(
-                  color: const Color.fromARGB(255, 239, 61, 7),
-                ),
+                borderRadius: BorderRadius.circular(30),
               ),
               child: Center(
                 child: Text(
-                  displayXO[index],
-                  style: const TextStyle(
-                    color: Color.fromARGB(255, 239, 61, 7),
-                    fontSize: 50,
+                  "X Wins!",
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: primaryColor,
                   ),
                 ),
               ),
             ),
-          );
-        },
+          ],
+          if (oWinner) ...[
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.1,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: Center(
+                child: Text(
+                  "O Wins!",
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: primaryColor,
+                  ),
+                ),
+              ),
+            ),
+          ],
+          if (draw) ...[
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.1,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: Center(
+                child: Text(
+                  "Draw!",
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: primaryColor,
+                  ),
+                ),
+              ),
+            ),
+          ],
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.01,
+          ),
+        ],
       ),
     );
   }

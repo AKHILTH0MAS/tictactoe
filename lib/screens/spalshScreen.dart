@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../colors.dart';
+
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
-  static const String routeName = '/splashScreen';
+  static String routeName = '/splashScreen';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 239, 61, 7),
+      backgroundColor: primaryColor,
       body: Column(
         children: [
           SizedBox(
@@ -38,9 +40,9 @@ class SplashScreen extends StatelessWidget {
                   "assets/images/SpalshScreenSvg.svg",
                   height: MediaQuery.of(context).size.height * 0.40,
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: const [
+                  children: [
                     Text(
                       "X",
                       style: TextStyle(
@@ -64,7 +66,7 @@ class SplashScreen extends StatelessWidget {
                     Navigator.pushNamed(context, '/playerChoosing');
                   },
                   style: TextButton.styleFrom(
-                    foregroundColor: const Color.fromARGB(255, 239, 61, 7),
+                    foregroundColor: primaryColor,
                     backgroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 50, vertical: 10),

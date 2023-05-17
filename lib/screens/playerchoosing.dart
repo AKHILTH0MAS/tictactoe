@@ -1,12 +1,32 @@
 import 'package:flutter/material.dart';
 
-class PlayerChoosing extends StatelessWidget {
+import '../colors.dart';
+
+class PlayerChoosing extends StatefulWidget {
   const PlayerChoosing({super.key});
-  static const String routeName = '/playerChoosing';
+  static String routeName = '/playerChoosing';
+
+  @override
+  State<PlayerChoosing> createState() => _PlayerChoosingState();
+}
+
+class _PlayerChoosingState extends State<PlayerChoosing> {
+  void spalshtimerlogic() {
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.pushNamed(context, '/game');
+    });
+  }
+
+  @override
+  void initState() {
+    spalshtimerlogic();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 239, 61, 7),
+      backgroundColor: primaryColor,
       body: Column(
         children: [
           SizedBox(
@@ -58,13 +78,13 @@ class PlayerChoosing extends StatelessWidget {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      child: const Align(
+                      child: Align(
                         child: Text(
                           "X",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 100,
-                            color: Color.fromARGB(255, 239, 61, 7),
+                            color: primaryColor,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -78,13 +98,13 @@ class PlayerChoosing extends StatelessWidget {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      child: const Align(
+                      child: Align(
                         child: Text(
                           "O",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 100,
-                            color: Color.fromARGB(255, 239, 61, 7),
+                            color: primaryColor,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -95,26 +115,8 @@ class PlayerChoosing extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.1,
                 ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/game');
-                  },
-                  style: TextButton.styleFrom(
-                    foregroundColor: const Color.fromARGB(255, 239, 61, 7),
-                    backgroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  child: const Text(
-                    "Continue",
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                const CircularProgressIndicator(
+                  color: Colors.white,
                 ),
               ],
             ),
