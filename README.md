@@ -1,16 +1,6 @@
 # tictactoe
 
-A new Flutter project.
+Tic Tac Toe Game
 
 ## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This is a simple Tic Tac Toe game developed by a self-taught Flutter developer as their first Flutter project. As a beginner, I am incredibly proud of this achievement. The game allows two players to take turns marking spaces on a 3x3 grid, aiming to create a line of three of their own symbols horizontally, vertically, or diagonally. It's a fun and classic game that showcases my progress in learning Flutter and building interactive applications. Feel free to give it a try and enjoy the game!
