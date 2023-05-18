@@ -19,7 +19,7 @@ class _GameState extends State<Game> {
   bool xWinner = false;
   bool oWinner = false;
   bool draw = false;
-
+  bool gesture = true;
   void _clearBoard() {
     setState(() {
       for (int i = 0; i < 9; i++) {
@@ -30,15 +30,10 @@ class _GameState extends State<Game> {
     oTurn = true;
   }
 
-  void _showDrawDialog() {
-    setState(() {
-      draw == true;
-    });
-  }
-
   void _showWinDialog(String winner) {
     setState(() {
       winner == 'X' ? xWinner = true : oWinner = true;
+      gesture = false;
     });
   }
 
@@ -137,7 +132,7 @@ class _GameState extends State<Game> {
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onTap: () {
-                    _tapped(index);
+                    gesture ? _tapped(index) : null;
                   },
                   child: Container(
                     height: 100,
