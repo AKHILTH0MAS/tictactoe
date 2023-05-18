@@ -13,7 +13,7 @@ class PlayerChoosing extends StatefulWidget {
 class _PlayerChoosingState extends State<PlayerChoosing> {
   void spalshtimerlogic() {
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pushNamed(context, '/game');
+      Navigator.pushReplacementNamed(context, '/game');
     });
   }
 

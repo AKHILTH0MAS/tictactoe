@@ -31,11 +31,9 @@ class _GameState extends State<Game> {
   }
 
   void _showDrawDialog() {
-    if (filledBoxes == 9 && oWinner == false && xWinner == false) {
-      setState(() {
-        draw == true;
-      });
-    }
+    setState(() {
+      draw == true;
+    });
   }
 
   void _showWinDialog(String winner) {
@@ -94,8 +92,6 @@ class _GameState extends State<Game> {
         displayXO[2] == displayXO[6] &&
         displayXO[2] != '') {
       _showWinDialog(displayXO[2]);
-    } else if (filledBoxes == 9) {
-      _showDrawDialog();
     }
   }
 
@@ -199,7 +195,7 @@ class _GameState extends State<Game> {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  Navigator.of(context).pop();
+
                   _clearBoard();
                 },
                 style: TextButton.styleFrom(
@@ -266,7 +262,7 @@ class _GameState extends State<Game> {
               ),
             ),
           ],
-          if (draw) ...[
+          if (filledBoxes == 9 && oWinner == false && xWinner == false) ...[
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
               width: double.infinity,
