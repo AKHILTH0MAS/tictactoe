@@ -25,6 +25,10 @@ class _GameState extends State<Game> {
       for (int i = 0; i < 9; i++) {
         displayXO[i] = '';
       }
+      xWinner = false;
+      oWinner = false;
+      draw = false;
+      gesture = true;
     });
     filledBoxes = 0;
     oTurn = true;
@@ -164,11 +168,6 @@ class _GameState extends State<Game> {
               TextButton(
                 onPressed: () {
                   _clearBoard();
-                  setState(() {
-                    xWinner = false;
-                    oWinner = false;
-                    draw = false;
-                  });
                 },
                 style: TextButton.styleFrom(
                   foregroundColor: primaryColor,
@@ -190,7 +189,6 @@ class _GameState extends State<Game> {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-
                   _clearBoard();
                 },
                 style: TextButton.styleFrom(
