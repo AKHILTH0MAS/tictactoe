@@ -15,6 +15,7 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> {
+  List<String> selectedindex = [];
   bool oTurn = true;
   bool xWinner = false;
   bool oWinner = false;
@@ -29,6 +30,7 @@ class _GameState extends State<Game> {
       oWinner = false;
       draw = false;
       gesture = true;
+      selectedindex = [];
     });
     filledBoxes = 0;
     oTurn = true;
@@ -57,40 +59,56 @@ class _GameState extends State<Game> {
     });
   }
 
+  _changeColorGrid(int a, int b, int c) {
+    setState(() {
+      selectedindex.add(a.toString());
+      selectedindex.add(b.toString());
+      selectedindex.add(c.toString());
+    });
+  }
+
   void _checkWinner() {
     if (displayXO[0] == displayXO[1] &&
         displayXO[0] == displayXO[2] &&
         displayXO[0] != '') {
       _showWinDialog(displayXO[0]);
+      _changeColorGrid(0, 1, 2);
     } else if (displayXO[3] == displayXO[4] &&
         displayXO[3] == displayXO[5] &&
         displayXO[3] != '') {
       _showWinDialog(displayXO[3]);
+      _changeColorGrid(3, 4, 5);
     } else if (displayXO[6] == displayXO[7] &&
         displayXO[6] == displayXO[8] &&
         displayXO[6] != '') {
       _showWinDialog(displayXO[6]);
+      _changeColorGrid(6, 7, 8);
     } else if (displayXO[0] == displayXO[3] &&
         displayXO[0] == displayXO[6] &&
         displayXO[0] != '') {
       _showWinDialog(displayXO[0]);
+      _changeColorGrid(0, 3, 6);
     } else if (displayXO[1] == displayXO[4] &&
         displayXO[1] == displayXO[7] &&
         displayXO[1] != '') {
       _showWinDialog(displayXO[1]);
+      _changeColorGrid(1, 4, 7);
     }
     if (displayXO[2] == displayXO[5] &&
         displayXO[2] == displayXO[8] &&
         displayXO[2] != '') {
       _showWinDialog(displayXO[2]);
+      _changeColorGrid(2, 5, 8);
     } else if (displayXO[0] == displayXO[4] &&
         displayXO[0] == displayXO[8] &&
         displayXO[0] != '') {
       _showWinDialog(displayXO[0]);
+      _changeColorGrid(0, 4, 8);
     } else if (displayXO[2] == displayXO[4] &&
         displayXO[2] == displayXO[6] &&
         displayXO[2] != '') {
       _showWinDialog(displayXO[2]);
+      _changeColorGrid(2, 4, 6);
     }
   }
 
@@ -143,7 +161,9 @@ class _GameState extends State<Game> {
                     width: 100,
                     padding: const EdgeInsets.all(15),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: (selectedindex.contains(index.toString()))
+                          ? Colors.grey
+                          : Colors.white,
                       border: Border.all(
                         color: primaryColor,
                       ),
